@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using SharedModels.Models;
 
 namespace WebTonicAssessment.Pages
 {
@@ -14,6 +15,8 @@ namespace WebTonicAssessment.Pages
     {
         [BindProperty]
         public List<IFormFile> FormFiles { get; set; }
+        [BindProperty]
+        public List<StudentRecord> studentsRecords { get; set; }
         public void OnGet()
         {
         }
@@ -21,8 +24,11 @@ namespace WebTonicAssessment.Pages
         public void OnPost(List<IFormFile> recordsFiles)
         {
             FormFiles = recordsFiles;
-            return;
-            if (recordsFiles.Count > 0) {
+
+            if (recordsFiles.Count > 0)
+            {
+
+                studentsRecords = new List<StudentRecord>();
 
                 try
                 {
@@ -39,24 +45,44 @@ namespace WebTonicAssessment.Pages
                                     string[] headers = sreader.ReadLine().Split(';');
                                     while (!sreader.EndOfStream)
                                     {
-                                        string[] rows = sreader.ReadLine().Split(';');
-                                        string studenNo = rows[0];
-                                        string FirstName = rows[1];
-                                        string Surname = rows[2];
-                                        string CourseCode = rows[3];
-                                        string CourseDescription = rows[4];
-                                        string Grade = rows[5];
+                                        var rowString = sreader.ReadLine();
+                                        if (rowString.EndsWith('\"'))
+                                        {
+                                            rowString = rowString.Remove(rowString.Length-1);
+                                        }
+
+                                        if(rowString.StartsWith('\"')){
+                                            rowString = rowString.Substring(1);
+                                        }
+                                        string[] rows = rowString.Split(';');
+                                        string studentNo = rows[0].ToString();
+                                        string FirstName = rows[1].ToString();
+                                        string Surname = rows[2].ToString();
+                                        string CourseCode = rows[3].ToString();
+                                        string CourseDescription = rows[4].ToString();
+                                        string Grade = rows[5].ToString();
+
+                                        //Creating student record
+                                        var student = new StudentRecord();
+                                        student.StudentNo = Convert.ToInt32(studentNo);
+                                        student.FirstName = FirstName;
+                                        student.Surname = Surname;
+                                        student.CourseCode = CourseCode;
+                                        student.CourseDescription = CourseDescription;
+                                        student.Grade = Grade;
+                                        studentsRecords.Add(student);
                                     }
                                 }
                             }
                     }
                 }
-                catch (Exception ex) { 
-                    
+                catch (Exception ex)
+                {
+
                 }
-                
+
             }
-            
+
         }
     }
 }
