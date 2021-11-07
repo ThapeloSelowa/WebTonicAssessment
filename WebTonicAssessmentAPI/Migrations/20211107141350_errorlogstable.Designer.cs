@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebTonicAssessmentAPI.Data;
 
 namespace WebTonicAssessmentAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211107141350_errorlogstable")]
+    partial class errorlogstable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -25,9 +27,6 @@ namespace WebTonicAssessmentAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Client")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Computer")
                         .HasColumnType("nvarchar(max)");
@@ -44,9 +43,6 @@ namespace WebTonicAssessmentAPI.Migrations
                     b.Property<string>("Section")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
                     b.HasKey("ID");
 
                     b.ToTable("ErrorLogs");
@@ -58,12 +54,6 @@ namespace WebTonicAssessmentAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("CapturedByUserId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Client")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CourseCode")
                         .HasColumnType("nvarchar(max)");

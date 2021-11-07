@@ -13,6 +13,8 @@ namespace SharedModels.Models
         public string CourseCode { get; set; }
         public string CourseDescription { get; set; }
         public string Grade { get; set; }
+        public string Client { get; set; }
+        public int CapturedByUserId { get; set; }
     }
 }
     

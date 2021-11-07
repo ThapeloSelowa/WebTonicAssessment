@@ -12,5 +12,7 @@ namespace SharedModels.Models
         public string Message { get; set; }
         public DateTime Date_Stamp { get; set; }
         public string Computer { get; set; }
+        public string Client { get; set; }
+        public int UserId { get; set; }
     }
 }

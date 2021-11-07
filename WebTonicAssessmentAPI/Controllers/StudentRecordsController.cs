@@ -104,6 +104,34 @@ namespace WebTonicAssessmentAPI.Controllers
         }
 
 
+        [HttpPost]
+        public ActionResult<List<StudentRecord>> PostBulkStudentsRecord(List<StudentRecord> students)
+        {
+            try
+            {
+                var processedStudents = new List<StudentRecord>();
+                foreach (var student in students) {
+                   var savedStudent =  _context.StudentRecords.Add(student);
+                    _context.SaveChanges();
+                    processedStudents.Add(savedStudent.Entity);
+                }
+                return processedStudents;
+            }
+            catch (Exception ex)
+            {
+                _context.ErrorLogs.Add(new Error_log
+                {
+                    Section = ex.Source,
+                    Method = ex.TargetSite.Name,
+                    Message = ex.Message,
+                    Date_Stamp = DateTime.Now,
+                    Computer = System.Environment.MachineName
+                });
+                _context.SaveChanges();
+                return StatusCode(500);
+            }
+        }
+
         [HttpPut("{id}")]
         public ActionResult<StudentRecord> PutStudentRecord(int id, StudentRecord student)
         {

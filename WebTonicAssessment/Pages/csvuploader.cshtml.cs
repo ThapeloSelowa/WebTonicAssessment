@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Newtonsoft.Json;
 using SharedModels.Models;
 
 namespace WebTonicAssessment.Pages
@@ -48,10 +49,11 @@ namespace WebTonicAssessment.Pages
                                         var rowString = sreader.ReadLine();
                                         if (rowString.EndsWith('\"'))
                                         {
-                                            rowString = rowString.Remove(rowString.Length-1);
+                                            rowString = rowString.Remove(rowString.Length - 1);
                                         }
 
-                                        if(rowString.StartsWith('\"')){
+                                        if (rowString.StartsWith('\"'))
+                                        {
                                             rowString = rowString.Substring(1);
                                         }
                                         string[] rows = rowString.Split(';');
@@ -75,6 +77,7 @@ namespace WebTonicAssessment.Pages
                                 }
                             }
                     }
+                    HttpContext.Session.SetString("studentsRecords", JsonConvert.SerializeObject(studentsRecords));
                 }
                 catch (Exception ex)
                 {
@@ -83,6 +86,20 @@ namespace WebTonicAssessment.Pages
 
             }
 
+        }
+
+        public void OnPostSaveToDatabase()
+        {
+            var data = HttpContext.Session.GetString("studentsRecords");
+            if (data != null)
+            {
+                List<StudentRecord> studentsRecords = JsonConvert.DeserializeObject<List<StudentRecord>>(data);
+                //Send to API for storage
+            }
+            else
+            {
+                //Return no records found to save
+            }
         }
     }
 }
