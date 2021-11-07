@@ -6,6 +6,7 @@ namespace SharedModels.Models
 {
    public class StudentRecord
     {
+        public int Id { get; set; }
         public int StudentNo { get; set; }
         public string FirstName { get; set; }
         public string Surname { get; set; }
