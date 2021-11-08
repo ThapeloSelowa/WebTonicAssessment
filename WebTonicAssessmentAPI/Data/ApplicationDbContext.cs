@@ -16,5 +16,6 @@ namespace WebTonicAssessmentAPI.Data
 
         public DbSet<StudentRecord> StudentRecords { get; set; }
         public DbSet<Error_log> ErrorLogs { get; set; }
+        public DbSet<Audit> Audits { get; set; }
     }
 }

@@ -50,7 +50,7 @@ namespace WebTonicAssessmentAPI.Controllers
 
         }
 
-        [HttpGet("{id}")][Route("GetStudentRecordById/{id}")]
+        [HttpGet][Route("GetStudentRecordById/{id}")]
         public ActionResult<StudentRecord> GetStudentRecordById(int id)
         {
             try
@@ -76,10 +76,9 @@ namespace WebTonicAssessmentAPI.Controllers
                 return StatusCode(500);
             }
 
-
         }
 
-        [HttpPost]
+        [HttpPost][Route("PostStudentRecord")]
         public ActionResult<StudentRecord> PostStudentRecord(StudentRecord student)
         {
             try
@@ -103,8 +102,7 @@ namespace WebTonicAssessmentAPI.Controllers
             }
         }
 
-
-        [HttpPost]
+        [HttpPost][Route("PostBulkStudentsRecord")]
         public ActionResult<List<StudentRecord>> PostBulkStudentsRecord(List<StudentRecord> students)
         {
             try
@@ -132,7 +130,7 @@ namespace WebTonicAssessmentAPI.Controllers
             }
         }
 
-        [HttpPut("{id}")]
+        [HttpPut][Route("PutStudentRecord")]
         public ActionResult<StudentRecord> PutStudentRecord(int id, StudentRecord student)
         {
             try
