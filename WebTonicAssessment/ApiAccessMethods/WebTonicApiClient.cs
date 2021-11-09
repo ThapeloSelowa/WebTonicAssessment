@@ -29,7 +29,7 @@ namespace WebTonicAssessment.ApiAccessMethods
                     return true;
                 };
                 client = new HttpClient(httpClientHandler);
-                client.BaseAddress = new Uri("https://localhost:44312/");
+                client.BaseAddress = new Uri("https://localhost:44367/");
                 client.DefaultRequestHeaders.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
                 return client;

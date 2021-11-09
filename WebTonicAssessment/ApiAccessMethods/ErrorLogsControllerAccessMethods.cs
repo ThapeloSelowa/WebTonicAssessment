@@ -10,64 +10,45 @@ namespace WebTonicAssessment.ApiAccessMethods
 {
     public class ErrorLogsControllerAccessMethods : WebTonicApiClient
     {
-        private static string apiBaseUrl = "api/ErrorLogs";
-        public static Error_log CreateOrUpdateErrorLogs(Error_log request)
+        private static string apiBaseUrl = "ErrorLogs";
+        public static Error_log CreateErrorLog(Error_log request)
         {
-            if (request.ID == 0)
+            HttpResponseMessage httpResponseMessage = GetHttpClient().PostAsync(apiBaseUrl + "/PostErrorLog/", CreateContentString(request)).Result;
+            if (httpResponseMessage.IsSuccessStatusCode)
             {
-                HttpResponseMessage httpResponseMessage = GetHttpClient().PostAsync(apiBaseUrl + "/PostStudentRecord/", CreateContentString(request)).Result;
-                if (httpResponseMessage.IsSuccessStatusCode)
-                {
-                    HttpContent httpContent = httpResponseMessage.Content;
-                    var results = httpContent.ReadAsStringAsync().Result;
-                    StudentRecord cs = JsonConvert.DeserializeObject<StudentRecord>(results);
-                    return cs;
-                }
-                else
-                {
-                    return request;
-                }
+                HttpContent httpContent = httpResponseMessage.Content;
+                var results = httpContent.ReadAsStringAsync().Result;
+                Error_log cs = JsonConvert.DeserializeObject<Error_log>(results);
+                return cs;
             }
             else
             {
-                HttpResponseMessage httpResponseMessage = GetHttpClient().PutAsync(apiBaseUrl + "/PutStudentRecord/" + request.Id, CreateContentString(request)).Result;
-                if (httpResponseMessage.IsSuccessStatusCode)
-                {
-                    HttpContent httpContent = httpResponseMessage.Content;
-                    var results = httpContent.ReadAsStringAsync().Result;
-                    StudentRecord studentRecord = JsonConvert.DeserializeObject<StudentRecord>(results);
-                    return studentRecord;
-                }
-                else
-                {
-                    return request;
-                }
+                return request;
             }
-
         }
 
-        public static List<StudentRecord> GetAllStudentsRecords()
+        public static List<Error_log> GetAllErrorLogss()
         {
-            List<StudentRecord> ce = new List<StudentRecord>();
-            HttpResponseMessage response = GetHttpClient().GetAsync(apiBaseUrl + "/GetAllStudentsRecords").Result;
+            List<Error_log> ce = new List<Error_log>();
+            HttpResponseMessage response = GetHttpClient().GetAsync(apiBaseUrl + "/GetAllErrorLogs").Result;
             if (response.IsSuccessStatusCode)
             {
                 HttpContent content = response.Content;
                 var results = content.ReadAsStringAsync().Result;
-                ce = JsonConvert.DeserializeObject<List<StudentRecord>>(results);
+                ce = JsonConvert.DeserializeObject<List<Error_log>>(results);
             }
             return ce;
         }
 
-        public static StudentRecord GetStudentRecordById(int id)
+        public static List<Error_log> GetErrorLogsByClientName(string client)
         {
-            StudentRecord ce = new StudentRecord();
-            HttpResponseMessage response = GetHttpClient().GetAsync(apiBaseUrl + "/GetStudentRecordById/" + id).Result;
+            List<Error_log> ce = new List<Error_log>();
+            HttpResponseMessage response = GetHttpClient().GetAsync(apiBaseUrl + "/GetErrorLogsByClientName/" +client).Result;
             if (response.IsSuccessStatusCode)
             {
                 HttpContent content = response.Content;
                 var results = content.ReadAsStringAsync().Result;
-                ce = JsonConvert.DeserializeObject<StudentRecord>(results);
+                ce = JsonConvert.DeserializeObject<List<Error_log>>(results);
             }
             return ce;
         }

@@ -10,7 +10,7 @@ using WebTonicAssessmentAPI.Data;
 
 namespace WebTonicAssessmentAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class AuditsController : ControllerBase
     {
@@ -52,12 +52,12 @@ namespace WebTonicAssessmentAPI.Controllers
         }
 
         [HttpGet]
-        [Route("GetAuditById/{id}")]
-        public ActionResult<Audit> GetAuditById(int id)
+        [Route("GetAuditByUserId/{id}")]
+        public ActionResult<Audit> GetAuditByUserId(int userid)
         {
             try
             {
-                var audit = _context.Audits.Where(x => x.Id == id).FirstOrDefault();
+                var audit = _context.Audits.Where(x => x.UserId == userid).FirstOrDefault();
                 if (audit == null)
                 {
                     return NotFound();
@@ -142,7 +142,7 @@ namespace WebTonicAssessmentAPI.Controllers
 
         [HttpPost]
         [Route("PostAudit")]
-        public ActionResult<StudentRecord> PostAudit(Audit audit)
+        public ActionResult<Audit> PostAudit(Audit audit)
         {
             try
             {

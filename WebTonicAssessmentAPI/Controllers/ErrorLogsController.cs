@@ -9,7 +9,7 @@ using WebTonicAssessmentAPI.Data;
 
 namespace WebTonicAssessmentAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class ErrorLogsController : ControllerBase
     {
@@ -60,6 +60,35 @@ namespace WebTonicAssessmentAPI.Controllers
                     return NotFound();
                 }
                 return error;
+            }
+            catch (Exception ex)
+            {
+                _context.ErrorLogs.Add(new Error_log
+                {
+                    Section = ex.Source,
+                    Method = ex.TargetSite.Name,
+                    Message = ex.Message,
+                    Date_Stamp = DateTime.Now,
+                    Computer = System.Environment.MachineName
+                });
+                _context.SaveChanges();
+                return StatusCode(500);
+            }
+        }
+
+
+        [HttpGet]
+        [Route("GetErrorLogsByClientName/{client}")]
+        public ActionResult<List<Error_log>> GetErrorLogsByClientName(string client)
+        {
+            try
+            {
+                var errors = _context.ErrorLogs.Where(x => x.Client == client);
+                if (errors == null)
+                {
+                    return NotFound();
+                }
+                return errors.ToList();
             }
             catch (Exception ex)
             {

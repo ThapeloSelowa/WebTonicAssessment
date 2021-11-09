@@ -10,7 +10,7 @@ using WebTonicAssessmentAPI.Data;
 
 namespace WebTonicAssessmentAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class StudentRecordsController : ControllerBase
     {
@@ -21,7 +21,7 @@ namespace WebTonicAssessmentAPI.Controllers
             _context = context;
         }
 
-        [HttpGet][Route("GetAllStudentsRecords")]
+        [HttpGet()][Route("GetAllStudentsRecords")]
         public ActionResult<List<StudentRecord>> GetAllStudentsRecords()
         {
             try
@@ -43,6 +43,7 @@ namespace WebTonicAssessmentAPI.Controllers
                     Date_Stamp = DateTime.Now,
                     Computer = System.Environment.MachineName
                 });
+
                 _context.SaveChanges();
                 return StatusCode(500);
             }
@@ -78,8 +79,8 @@ namespace WebTonicAssessmentAPI.Controllers
 
         }
 
-        [HttpPost][Route("PostStudentRecord")]
-        public ActionResult<StudentRecord> PostStudentRecord(StudentRecord student)
+        [HttpPost]
+        public ActionResult<StudentRecord> Post(StudentRecord student)
         {
             try
             {
@@ -102,8 +103,8 @@ namespace WebTonicAssessmentAPI.Controllers
             }
         }
 
-        [HttpPost][Route("PostBulkStudentsRecord")]
-        public ActionResult<List<StudentRecord>> PostBulkStudentsRecord(List<StudentRecord> students)
+        [HttpPost][Route("BulkStudentsRecord")]
+        public ActionResult<List<StudentRecord>> BulkStudentsRecord(List<StudentRecord> students)
         {
             try
             {

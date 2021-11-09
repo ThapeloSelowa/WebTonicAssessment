@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
 using SharedModels.Models;
+using WebTonicAssessment.ApiAccessMethods;
 
 namespace WebTonicAssessment.Pages
 {
@@ -94,7 +95,14 @@ namespace WebTonicAssessment.Pages
             if (data != null)
             {
                 List<StudentRecord> studentsRecords = JsonConvert.DeserializeObject<List<StudentRecord>>(data);
-                //Send to API for storage
+               // StudentRecordsControllerMethods.CreateBulkStudentRecords(studentsRecords);
+
+                Audit audit = new Audit();
+                audit.Client = "WebTonic";
+                audit.UserEmail = "";
+                audit.UserId = 1;
+                audit.Change = $"{audit.UserEmail} added {studentsRecords.Count} new students records.";
+                AuditControllerAccessMethods.CreateAudit(audit);
             }
             else
             {

@@ -11,13 +11,13 @@ namespace WebTonicAssessment.ApiAccessMethods
     public class StudentRecordsControllerMethods : WebTonicApiClient
     {
 
-        private static string apiBaseUrl = "api/StudentsRecords";
+        private static string apiBaseUrl = "StudentRecords";
 
         public static StudentRecord CreateOrUpdateStudentRecord(StudentRecord request)
         {
             if (request.Id == 0)
             {
-                HttpResponseMessage httpResponseMessage = GetHttpClient().PostAsync(apiBaseUrl + "/PostStudentRecord/", CreateContentString(request)).Result;
+                HttpResponseMessage httpResponseMessage = GetHttpClient().PostAsync(apiBaseUrl, CreateContentString(request)).Result;
                 if (httpResponseMessage.IsSuccessStatusCode)
                 {
                     HttpContent httpContent = httpResponseMessage.Content;
@@ -77,7 +77,7 @@ namespace WebTonicAssessment.ApiAccessMethods
         public static List<StudentRecord> CreateBulkStudentRecords(List<StudentRecord> requests)
         {
 
-            HttpResponseMessage httpResponseMessage = GetHttpClient().PostAsync(apiBaseUrl + "/PostStudentRecord/", CreateContentString(requests)).Result;
+            HttpResponseMessage httpResponseMessage = GetHttpClient().PostAsync(apiBaseUrl + "/BulkStudentsRecord/", CreateContentString(requests)).Result;
             if (httpResponseMessage.IsSuccessStatusCode)
             {
                 HttpContent httpContent = httpResponseMessage.Content;
