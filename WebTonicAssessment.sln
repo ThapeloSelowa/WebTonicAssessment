@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebTonicAssessment", "WebTo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedModels", "Models\SharedModels.csproj", "{81E1994E-AADD-4CDF-8010-84E632278185}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebTonicAssessmentAPI", "WebTonicAssessmentAPI\WebTonicAssessmentAPI.csproj", "{90C6C2B7-B9A1-4A73-8EFA-5191ED028D4A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebTonicAssessmentAPI", "WebTonicAssessmentAPI\WebTonicAssessmentAPI.csproj", "{90C6C2B7-B9A1-4A73-8EFA-5191ED028D4A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

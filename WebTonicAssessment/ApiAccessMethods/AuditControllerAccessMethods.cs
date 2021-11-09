@@ -10,7 +10,7 @@ namespace WebTonicAssessment.ApiAccessMethods
 {
     public class AuditControllerAccessMethods : WebTonicApiClient
     {
-        private static string apiBaseUrl = "Audit";
+        private static string apiBaseUrl = "Audits";
         public static Audit CreateAudit(Audit request)
         {
             HttpResponseMessage httpResponseMessage = GetHttpClient().PostAsync(apiBaseUrl + "/PostAudit/", CreateContentString(request)).Result;

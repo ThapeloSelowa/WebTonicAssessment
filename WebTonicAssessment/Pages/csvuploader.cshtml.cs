@@ -73,6 +73,9 @@ namespace WebTonicAssessment.Pages
                                         student.CourseCode = CourseCode;
                                         student.CourseDescription = CourseDescription;
                                         student.Grade = Grade;
+                                        student.Client = "WebTonic";
+                                        student.CapturedByUserId = 0;
+                                       
                                         studentsRecords.Add(student);
                                     }
                                 }
@@ -82,7 +85,15 @@ namespace WebTonicAssessment.Pages
                 }
                 catch (Exception ex)
                 {
-
+                    var error = new Error_log
+                    {
+                        Section = ex.Source,
+                        Method = ex.TargetSite.Name,
+                        Message = ex.Message,
+                        Date_Stamp = DateTime.Now,
+                        Computer = System.Environment.MachineName
+                    };
+                    ErrorLogsControllerAccessMethods.CreateErrorLog(error);
                 }
 
             }
@@ -90,19 +101,30 @@ namespace WebTonicAssessment.Pages
         }
 
         public void OnPostSaveToDatabase()
-        {
+        {           
             var data = HttpContext.Session.GetString("studentsRecords");
             if (data != null)
             {
                 List<StudentRecord> studentsRecords = JsonConvert.DeserializeObject<List<StudentRecord>>(data);
-               // StudentRecordsControllerMethods.CreateBulkStudentRecords(studentsRecords);
+                var results = StudentRecordsControllerMethods.CreateBulkStudentRecords(studentsRecords);
+                if (results.Count > 0)
+                {
+                    //Logging an audit for the user addition of students records
+                    Audit audit = new Audit();
+                    audit.Client = "WebTonic";
+                    audit.UserEmail = "";
+                    audit.UserId = 1;
+                    audit.Change = $"{audit.UserEmail} added {studentsRecords.Count} new students records.";
+                    AuditControllerAccessMethods.CreateAudit(audit);
 
-                Audit audit = new Audit();
-                audit.Client = "WebTonic";
-                audit.UserEmail = "";
-                audit.UserId = 1;
-                audit.Change = $"{audit.UserEmail} added {studentsRecords.Count} new students records.";
-                AuditControllerAccessMethods.CreateAudit(audit);
+                   //Destroying students records saved in the session
+                    HttpContext.Session.Remove("studentsRecords");
+                }
+                else
+                { 
+                    //Display data not saved message
+                }
+                
             }
             else
             {
